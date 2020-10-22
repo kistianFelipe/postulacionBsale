@@ -39,6 +39,7 @@ app.get("/products/:name", (req, res) => {
   if (req.params.name.toUpperCase() === "ALL") sql = `Select * from product`;
   fetchData(sql, req, res);
 });
+
 //products by category
 app.get("/productsByCategory/:id", (req, res) => {
   let sql = `Select * from product where category = ${req.params.id}`;

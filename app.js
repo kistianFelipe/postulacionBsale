@@ -52,7 +52,7 @@ app.get("/categories", (req, res) => {
   fetchData(sql, req, res);
 });
 
-//fetch data from mysql
+//fetch data from  mysql
 const fetchData = (sql, req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;

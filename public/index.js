@@ -6,7 +6,7 @@ let scrollBtn = document.querySelector(".scroll");
 let sortBy = document.querySelector("#sortBy");
 let filterBy = document.querySelector("#filterBy");
 let dataList = [];
-let currentDataList = [];
+let currentProductList = [];
 let interval = 0;
 
 loading.className = "d-flex justify-content-center";
@@ -106,14 +106,20 @@ const sortData = (data, order = 1) => {
  */
 const filterData = (data, filter) => {
   let newData = [];
-  if (filter === "disc") {
-    newData = data.filter((a) => a.discount > 0);
+  console.log(filter);
+  if (filter != 0) {
+    if (filter === "disc") {
+      newData = data.filter((a) => a.discount > 0);
+    } else {
+      newData = data.filter((a) => a.category == filter);
+    }
+    currentProductList = [...newData];
+    divResult.innerHTML = "";
+    createDOM(currentProductList);
   } else {
-    newData = data.filter((a) => a.category == filter);
+    divResult.innerHTML = "";
+    createDOM(dataList);
   }
-  currentDataList = [...newData];
-  divResult.innerHTML = "";
-  createDOM(currentDataList);
 };
 
 /**
@@ -147,8 +153,8 @@ const fetchAPI = (param, value) => {
       .then((data) => {
         if (data.length) {
           dataList = [...data];
-          currentDataList = [...data];
-          sortData(currentDataList);
+          currentProductList = [...data];
+          sortData(currentProductList);
         } else {
           displayMessage(param);
         }
@@ -179,7 +185,7 @@ urlParams.has("cat")
   : fetchAPI("ALL");
 
 sortBy.addEventListener("change", (e) => {
-  sortData(currentDataList, e.target.value);
+  sortData(currentProductList, e.target.value);
 });
 
 filterBy.addEventListener("change", (e) => {

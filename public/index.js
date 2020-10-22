@@ -14,10 +14,15 @@ spinner.className = "spinner-grow text-info";
 spinner.style = "width: 3rem; height: 3rem;";
 loading.appendChild(spinner);
 
-const createDOM = (data) => {
+/**
+ * metodo que envía la información al DOM
+ * @param {Array<object>} products - arreglo de productos
+ * @example createDOM(productList)
+ */
+const createDOM = (products) => {
   loading.innerHTML = "";
-  if (data.length) {
-    data.map((d) => {
+  if (products.length) {
+    products.map((product) => {
       //card structure
       let divCol = document.createElement("div");
       let divCard = document.createElement("div");
@@ -37,12 +42,12 @@ const createDOM = (data) => {
         : "https://cdn-tp1.mozu.com/21830-33325/resources/images/no-product-image.png?_mzcb=_1597666552734";
       span.className = "badge badge-pill badge-danger";
       span.style = "position: absolute; top: 5em; left: -1em";
-      span.innerText = `${d.discount}% OFF`;
+      span.innerText = `${product.discount}% OFF`;
       divCardBody.className = "card-body";
       h6.className = "card-title";
-      h6.innerHTML = `<strong>${d.name}</strong>`;
+      h6.innerHTML = `<strong>${product.name}</strong>`;
       p.className = "card-text";
-      p.innerText = `$${d.price}`;
+      p.innerText = `$${product.price}`;
       divCardFooter.className = "card-footer";
       divCardFooter.style = "background-color: white; border: none";
       productBtn.className = "btn btn-primary btn-block";
@@ -67,6 +72,12 @@ const createDOM = (data) => {
   }
 };
 
+/**
+ * método que ordena una lista de objetos según parámetro ingresado
+ * @param {Array<objet>} data - arreglo de productos
+ * @param {Number} order - orden
+ * @example sortData(dataList,1)
+ */
 const sortData = (data, order = 1) => {
   if (order == 1) {
     data.sort((a, b) => b.discount - a.discount);
@@ -87,6 +98,12 @@ const sortData = (data, order = 1) => {
   createDOM(data);
 };
 
+/**
+ * método que filtra información según parámetro ingresado
+ * @param {Array<object>} data - arreglo de productos
+ * @param {String} filter - filtro
+ * @example filterData(dataList,"disc")
+ */
 const filterData = (data, filter) => {
   let newData = [];
   if (filter === "disc") {
@@ -94,12 +111,16 @@ const filterData = (data, filter) => {
   } else {
     newData = data.filter((a) => a.category == filter);
   }
-  // dataList = [...newData];
   currentDataList = [...newData];
   divResult.innerHTML = "";
   createDOM(currentDataList);
 };
 
+/**
+ * método que genera un mensaje cuando la busqueda no devuelve información
+ * @param {String} param - nombre del parámetro
+ * @example displayMessage("texto")
+ */
 const displayMessage = (param) => {
   let divMsg = document.createElement("div");
   divMsg.className = "alert alert-warning";
@@ -108,6 +129,12 @@ const displayMessage = (param) => {
   loadingResult.appendChild(loading);
 };
 
+/**
+ * método que trae información de los productos y la guarda de forma local
+ * @param {String} param - busqueda del usuario
+ * @param {Number} value - categoría del producto
+ * @example fetchAPI("cat",1)
+ */
 const fetchAPI = (param, value) => {
   let url = `/products/${param}`;
   if (param.toUpperCase() === "CAT") {
@@ -125,25 +152,25 @@ const fetchAPI = (param, value) => {
         } else {
           displayMessage(param);
         }
-
-        // loading.removeChild(loading.childNodes[0]);
       });
   }
 };
 
-//scroll button
 const scrollStep = () => {
   if (window.pageYOffset === 0) {
     clearInterval(interval);
   }
   window.scroll(0, window.pageYOffset - 50);
 };
+
 const scrollToTop = () => {
   interval = setInterval(scrollStep, 16.66);
 };
+
 scrollBtn.addEventListener("click", scrollToTop);
 
 const urlParams = new URLSearchParams(window.location.search);
+
 //params searchProduct o cat
 urlParams.has("cat")
   ? fetchAPI("cat", urlParams.get("cat"))

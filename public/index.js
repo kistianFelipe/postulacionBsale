@@ -106,7 +106,6 @@ const sortData = (data, order = 1) => {
  */
 const filterData = (data, filter) => {
   let newData = [];
-  console.log(filter);
   if (filter != 0) {
     if (filter === "disc") {
       newData = data.filter((a) => a.discount > 0);

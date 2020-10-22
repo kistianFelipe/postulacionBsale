@@ -37,8 +37,8 @@ const createDOM = (products) => {
       divCol.className = "col mb-4";
       divCard.className = "card h-100 crisCard";
       img.className = "card-img";
-      img.src = d.url_image
-        ? d.url_image
+      img.src = product.url_image
+        ? product.url_image
         : "https://cdn-tp1.mozu.com/21830-33325/resources/images/no-product-image.png?_mzcb=_1597666552734";
       span.className = "badge badge-pill badge-danger";
       span.style = "position: absolute; top: 5em; left: -1em";
@@ -60,7 +60,7 @@ const createDOM = (products) => {
       divCardFooter.appendChild(productBtn);
       //card
       divCard.appendChild(img);
-      if (d.discount > 0) divCard.appendChild(span);
+      if (product.discount > 0) divCard.appendChild(span);
       divCard.appendChild(divCardBody);
       divCard.appendChild(divCardFooter);
       divCol.appendChild(divCard);

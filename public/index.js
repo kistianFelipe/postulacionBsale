@@ -6,6 +6,7 @@ let scrollBtn = document.querySelector(".scroll");
 let sortBy = document.querySelector("#sortBy");
 let filterBy = document.querySelector("#filterBy");
 let dataList = [];
+let currentDataList = [];
 let interval = 0;
 
 loading.className = "d-flex justify-content-center";
@@ -35,7 +36,7 @@ const createDOM = (data) => {
         ? d.url_image
         : "https://cdn-tp1.mozu.com/21830-33325/resources/images/no-product-image.png?_mzcb=_1597666552734";
       span.className = "badge badge-pill badge-danger";
-      span.style = "position: absolute; top: 5em; left: -2em";
+      span.style = "position: absolute; top: 5em; left: -1em";
       span.innerText = `${d.discount}% OFF`;
       divCardBody.className = "card-body";
       h6.className = "card-title";
@@ -67,8 +68,6 @@ const createDOM = (data) => {
 };
 
 const sortData = (data, order = 1) => {
-  console.log("sort data");
-  console.log(data);
   if (order == 1) {
     data.sort((a, b) => b.discount - a.discount);
   }
@@ -78,19 +77,12 @@ const sortData = (data, order = 1) => {
   if (order == 3) {
     data.sort((a, b) => a.price - b.price);
   }
-  //nombres
-  const compareAZ = (a, b) =>
-    a && b && a !== b ? (a.name > b.name ? 1 : -1) : 0;
-  const compareZA = (a, b) =>
-    a && b && a !== b ? (b.name > a.name ? 1 : -1) : 0;
-
   if (order == 4) {
     data.sort((a, b) => a.name.localeCompare(b.name));
   }
   if (order == 5) {
     data.sort((a, b) => b.name.localeCompare(a.name));
   }
-  console.log(data);
   divResult.innerHTML = "";
   createDOM(data);
 };
@@ -102,9 +94,10 @@ const filterData = (data, filter) => {
   } else {
     newData = data.filter((a) => a.category == filter);
   }
-  dataList = [...newData];
+  // dataList = [...newData];
+  currentDataList = [...newData];
   divResult.innerHTML = "";
-  createDOM(dataList);
+  createDOM(currentDataList);
 };
 
 const displayMessage = (param) => {
@@ -127,7 +120,8 @@ const fetchAPI = (param, value) => {
       .then((data) => {
         if (data.length) {
           dataList = [...data];
-          sortData(data);
+          currentDataList = [...data];
+          sortData(currentDataList);
         } else {
           displayMessage(param);
         }
@@ -158,7 +152,7 @@ urlParams.has("cat")
   : fetchAPI("ALL");
 
 sortBy.addEventListener("change", (e) => {
-  sortData(dataList, e.target.value);
+  sortData(currentDataList, e.target.value);
 });
 
 filterBy.addEventListener("change", (e) => {

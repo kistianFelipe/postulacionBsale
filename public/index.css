@@ -1,0 +1,36 @@
+.scroll {
+  opacity: 0.3;
+  background-color: #0275d8;
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  border-radius: 5px;
+  border: none;
+}
+.scroll:hover {
+  opacity: 1;
+}
+
+.arrow-up {
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -9px;
+  margin-left: -5px;
+}
+
+.crisCard {
+  filter: none;
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  -webkit-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+}
+.crisCard:hover {
+  -webkit-transform: scale(1.05);
+  transform: scale(1.05);
+  filter: drop-shadow(8px 8px 10px gray);
+}

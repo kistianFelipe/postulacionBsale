@@ -131,6 +131,7 @@ const fetchAPI = (param, value) => {
         } else {
           displayMessage(param);
         }
+
         // loading.removeChild(loading.childNodes[0]);
       });
   }
